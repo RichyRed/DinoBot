@@ -1,0 +1,66 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://assets/ui_theme.tres" type="Theme" id=1]
+[ext_resource path="res://src/Screens/EndScreen.gd" type="Script" id=2]
+[ext_resource path="res://assets/theme/fondoNubes.png" type="Texture" id=3]
+[ext_resource path="res://src/UserInterface/Title.tscn" type="PackedScene" id=4]
+[ext_resource path="res://src/UserInterface/SceneChangeButton.tscn" type="PackedScene" id=5]
+[ext_resource path="res://src/Screens/ParallaxBackground.gd" type="Script" id=6]
+[ext_resource path="res://src/UserInterface/QuitButton.tscn" type="PackedScene" id=7]
+[ext_resource path="res://assets/font_default.tres" type="DynamicFont" id=8]
+
+[node name="EndScreen" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="Title" parent="." instance=ExtResource( 4 )]
+text = "Felicidades acabaste el juego!!!!"
+
+[node name="Result" type="Label" parent="."]
+anchor_right = 1.0
+margin_left = -121.0
+margin_top = 354.0
+margin_right = 122.0
+margin_bottom = 579.0
+text = "Tu puntaje es: %s 
+Muertes:       %s "
+align = 1
+valign = 1
+
+[node name="Menu" type="VBoxContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -267.0
+margin_top = 216.0
+margin_right = 161.0
+margin_bottom = 470.0
+
+[node name="PlayButton" parent="Menu" instance=ExtResource( 5 )]
+margin_right = 428.0
+margin_bottom = 123.0
+custom_fonts/font = ExtResource( 8 )
+text = "Otra Vez"
+flat = true
+next_scene_path = "res://src/Screens/MainScreen.tscn"
+
+[node name="QuitButton" parent="Menu" instance=ExtResource( 7 )]
+margin_top = 131.0
+margin_right = 428.0
+margin_bottom = 254.0
+text = "Salir"
+flat = true
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+script = ExtResource( 6 )
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2( 14157, 2873 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 98000, 98000 )
