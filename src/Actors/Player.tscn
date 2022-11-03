@@ -1,19 +1,98 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://src/Actors/Player.gd" type="Script" id=1]
-[ext_resource path="res://assets/player.png" type="Texture" id=2]
+[ext_resource path="res://assets/player2.png" type="Texture" id=2]
 
 [sub_resource type="OccluderPolygon2D" id=1]
-polygon = PoolVector2Array( -47.7193, -80.1353, -45.552, -86.1556, -40.2541, -93.1392, -32.7889, -96.9922, 32.4715, -96.5106, 38.7327, -94.5841, 44.9938, -89.0453, 47.6427, -82.0618, 48.1244, -17.5238, 45.957, -10.2994, 41.6224, -5.00154, 33.9164, 0.296349, -31.1032, -0.18528, -39.5316, -4.2791, -45.0704, -10.0586, -47.4785, -16.5606 )
+polygon = PoolVector2Array( -12, -85, -9, -104, -12, -115, 1, -129, 32.4715, -96.5106, 34, -90, 33, -77, 34, -64, 28, -46, 18, -39, 12, -27, 9, -17, 7, -3, -5, 1, -30, 1, -38, -25, -51, -36, -56, -99 )
+
+[sub_resource type="Animation" id=5]
+resource_name = "Caminar"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ ExtResource( 2 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 10 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 2, 3 ]
+}
+
+[sub_resource type="Animation" id=6]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ ExtResource( 2 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 10 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 2 ]
+}
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 40, 41 )
+extents = Vector2( 47.5, 65.5 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 45.6478, 41.7715 )
+extents = Vector2( 51.3239, 66 )
 
 [sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 48, 8 )
+extents = Vector2( 52, 8 )
 
 [node name="Player" type="KinematicBody2D"]
 collision_mask = 4
@@ -34,14 +113,22 @@ editor_draw_limits = true
 editor_draw_drag_margin = true
 
 [node name="Sprite" type="Sprite" parent="."]
+position = Vector2( -8, -6 )
 texture = ExtResource( 2 )
 offset = Vector2( 0, -48.3333 )
+hframes = 10
+frame = 2
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="Sprite"]
+position = Vector2( 10, 16 )
 occluder = SubResource( 1 )
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
+anims/Caminar = SubResource( 5 )
+anims/RESET = SubResource( 6 )
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, -41 )
+position = Vector2( -7.5, -55.5 )
 shape = SubResource( 2 )
 
 [node name="EnemyDetector" type="Area2D" parent="."]
@@ -50,7 +137,7 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyDetector"]
 modulate = Color( 0.337255, 0.223529, 1, 1 )
-position = Vector2( 0, -48 )
+position = Vector2( -3.6761, -55 )
 shape = SubResource( 3 )
 
 [node name="StompDetector" type="Area2D" parent="."]
@@ -58,6 +145,7 @@ collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StompDetector"]
 modulate = Color( 0.337255, 0.223529, 1, 1 )
+position = Vector2( -4, 0 )
 shape = SubResource( 4 )
 
 [connection signal="body_entered" from="EnemyDetector" to="." method="_on_EnemyDetector_body_entered"]
